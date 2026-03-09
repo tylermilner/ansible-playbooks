@@ -1,0 +1,57 @@
+---
+- name: Install development packages (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: "{{ dev_packages }}"
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install development packages (RedHat/Fedora)
+  ansible.builtin.dnf:
+    name: "{{ dev_packages }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Install Docker (Debian/Ubuntu)
+  when:
+    - install_docker | bool
+    - ansible_os_family == "Debian"
+  block:
+    - name: Install Docker dependencies
+      ansible.builtin.apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - gnupg
+          - lsb-release
+        state: present
+
+    - name: Create /etc/apt/keyrings directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install Docker packages
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: true

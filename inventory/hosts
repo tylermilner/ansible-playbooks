@@ -1,0 +1,10 @@
+[local]
+localhost ansible_connection=local
+
+[linux]
+# Add your Linux machines here:
+# e.g. my-linux-machine ansible_host=192.168.1.10 ansible_user=myuser
+
+[macos]
+# Add your macOS machines here:
+# e.g. my-mac ansible_host=192.168.1.20 ansible_user=myuser
