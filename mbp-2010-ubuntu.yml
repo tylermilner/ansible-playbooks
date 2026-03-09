@@ -2,7 +2,7 @@
 - name: Configure MacBook Pro Ubuntu Desktop homelab node
   hosts: localhost
   connection: local
-  become: true
+  become: false
 
   vars:
     homelab_user: ubuntu # Match the username that was created during the Ubuntu installation
