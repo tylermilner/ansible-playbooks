@@ -24,9 +24,8 @@ This repository contains Ansible playbooks and roles for quickly setting up a ne
 
 ## Prerequisites
 
-- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html) installed on the control machine
-- SSH access to the target machine(s), or run locally against `localhost`
-- `sudo` privileges on the target machine(s)
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html) installed on the machine you want to configure
+- `sudo` privileges on that machine
 
 For macOS targets, the `community.general` Ansible collection is also required:
 
@@ -34,56 +33,68 @@ For macOS targets, the `community.general` Ansible collection is also required:
 ansible-galaxy collection install community.general
 ```
 
-## Setup
+## Quick Start — Configure This Machine
 
-1. Clone this repository:
+The simplest use case is running the playbook directly on the machine you just set up (no IP address, no SSH, no network configuration needed):
+
+1. Install Ansible:
+
+   ```bash
+   # Ubuntu/Debian
+   sudo apt update && sudo apt install -y ansible
+   ```
+
+2. Clone this repository on the machine you want to configure:
 
    ```bash
    git clone https://github.com/tylermilner/ansible-playbooks.git
    cd ansible-playbooks
    ```
 
-2. Edit `inventory/hosts` and add your machines under the appropriate group (`linux` or `macos`).
+3. Run the playbook against the local machine (the `-K` flag prompts for your `sudo` password):
 
-3. *(Optional)* Customize the role defaults in `roles/*/defaults/main.yml` to tailor the installed packages.
+   ```bash
+   ansible-playbook site.yml --limit local -K
+   ```
 
-## Usage
+That's it — no IP addresses or SSH setup required.
 
-Run the main playbook against all configured hosts:
+## Setup — Configure Remote Machines
 
-```bash
-ansible-playbook site.yml
-```
-
-Prompt for the `sudo` password (if needed):
+If you want to manage *other* machines on your network over SSH, edit `inventory/hosts` and add them under the `[linux]` or `[macos]` group, then run:
 
 ```bash
 ansible-playbook site.yml -K
 ```
 
-Target only Linux machines:
+## Usage
+
+Configure the local machine (most common use case — see [Quick Start](#quick-start--configure-this-machine) above):
 
 ```bash
-ansible-playbook site.yml --limit linux
+ansible-playbook site.yml --limit local -K
 ```
 
-Target only macOS machines:
+Configure all remote hosts defined in `inventory/hosts`:
 
 ```bash
+ansible-playbook site.yml -K
+```
+
+Target a specific group of remote machines:
+
+```bash
+ansible-playbook site.yml --limit linux -K
 ansible-playbook site.yml --limit macos
 ```
 
-Run against the local machine:
+Perform a dry-run (check mode) without making any changes:
 
 ```bash
-ansible-playbook site.yml --limit local
+ansible-playbook site.yml --check --limit local -K
 ```
 
-Perform a dry-run (check mode):
-
-```bash
-ansible-playbook site.yml --check
-```
+*(Optional)* Customize the packages to install by editing the role defaults in `roles/*/defaults/main.yml`.
 
 ## Roles
 
