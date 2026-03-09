@@ -1,0 +1,15 @@
+---
+- name: Configure basic MacBook Pro Ubuntu installation
+  hosts: localhost
+  become: true
+  connection: local
+
+  vars:
+    homelab_user: ubuntu # Match the username that was created during the Ubuntu installation
+
+  tasks:
+    - name: Install uv Python package manager
+      shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+      args:
+        # Skip if uv is already installed
+        creates: /home/{{ homelab_user }}/.local/bin/uv
