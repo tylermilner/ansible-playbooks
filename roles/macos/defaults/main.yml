@@ -1,0 +1,12 @@
+---
+# Homebrew packages to install on macOS
+homebrew_packages:
+  - curl
+  - git
+  - htop
+  - tree
+  - vim
+  - wget
+
+# Homebrew cask applications to install
+homebrew_casks: []

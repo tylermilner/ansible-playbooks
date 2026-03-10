@@ -1,0 +1,29 @@
+---
+# Main playbook for configuring machines after OS installation
+#
+# Usage:
+#   ansible-playbook site.yml
+#   ansible-playbook site.yml --limit linux
+#   ansible-playbook site.yml --limit macos
+#   ansible-playbook site.yml -K   # Prompt for sudo password
+
+- name: Configure Linux machines
+  hosts: linux
+  gather_facts: true
+  roles:
+    - common
+    - development
+
+- name: Configure macOS machines
+  hosts: macos
+  gather_facts: true
+  become: false
+  roles:
+    - macos
+
+- name: Configure local machine
+  hosts: local
+  gather_facts: true
+  roles:
+    - common
+    - development

@@ -1,0 +1,10 @@
+---
+# Default packages to install on all machines
+common_packages:
+  - curl
+  - git
+  - htop
+  - tree
+  - unzip
+  - vim
+  - wget

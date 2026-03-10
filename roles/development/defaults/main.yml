@@ -1,0 +1,10 @@
+---
+# Development tools to install
+dev_packages:
+  - build-essential
+  - python3
+  - python3-pip
+  - python3-venv
+
+# Whether to install Docker
+install_docker: false
