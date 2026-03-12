@@ -9,8 +9,10 @@
 
   tasks:
     - name: Install uv Python package manager
-      shell: curl -LsSf https://astral.sh/uv/install.sh | sh
-      args:
+      ansible.builtin.shell: # noqa: command-instead-of-module
+        cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
         # Skip if uv is already installed
         creates: /home/{{ homelab_user }}/.local/bin/uv
+        executable: /bin/bash
+      become: true
       become_user: "{{ homelab_user }}" # Run as the target user
