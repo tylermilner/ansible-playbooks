@@ -13,3 +13,4 @@
       args:
         # Skip if uv is already installed
         creates: /home/{{ homelab_user }}/.local/bin/uv
+      become_user: "{{ homelab_user }}" # Run as the target user
