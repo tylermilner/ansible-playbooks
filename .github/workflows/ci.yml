@@ -1,0 +1,39 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  lint-and-syntax-check:
+    name: Lint and Syntax Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible and ansible-lint
+        run: pip install -r requirements.txt
+
+      - name: Run ansible-lint
+        run: ansible-lint
+
+      - name: Run syntax check
+        run: |
+          for playbook in *.yml; do
+            ansible-playbook --syntax-check -i localhost, "$playbook"
+          done
