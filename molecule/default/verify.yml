@@ -1,0 +1,29 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+
+  vars:
+    homelab_user: vagrant
+
+  tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Assert that curl is installed
+      ansible.builtin.assert:
+        that: "'curl' in ansible_facts.packages"
+        fail_msg: "curl is not installed"
+        success_msg: "curl is installed"
+
+    - name: Check that uv binary exists
+      ansible.builtin.stat:
+        path: /home/{{ homelab_user }}/.local/bin/uv
+      register: uv_stat
+
+    - name: Assert that uv binary exists
+      ansible.builtin.assert:
+        that: uv_stat.stat.exists
+        fail_msg: "uv binary not found at /home/{{ homelab_user }}/.local/bin/uv"
+        success_msg: "uv binary found at /home/{{ homelab_user }}/.local/bin/uv"

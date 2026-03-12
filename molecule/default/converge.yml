@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+  become: false
+  vars:
+    homelab_user: vagrant
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.package:
+        name:
+          - curl
+        state: present
+      become: true
+
+    - name: Install uv Python package manager
+      ansible.builtin.shell: # noqa: command-instead-of-module
+        cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
+        creates: /home/{{ homelab_user }}/.local/bin/uv
+        executable: /bin/bash
+      become: true
+      become_user: "{{ homelab_user }}"
