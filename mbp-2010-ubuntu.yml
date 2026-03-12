@@ -12,7 +12,7 @@
       ansible.builtin.package:
         name:
           - curl # Required for downloading the uv installer script
-        state: latest # Ensures the latest version is installed
+        state: present # Ensures the package is installed
 
     - name: Install uv Python package manager
       ansible.builtin.shell: # noqa: command-instead-of-module
