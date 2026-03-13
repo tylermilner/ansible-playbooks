@@ -1,5 +1,6 @@
 ---
 - name: Configure MacBook Pro Ubuntu Desktop homelab node
+  # TODO: Can this use `hosts: all` and `connection: all` so that testing infrastructure with Molecule can be simplified (i.e. no need for separate ci/default `converge.yml` and can reintegrate `tasks/main.yml` into this main playbook)?
   hosts: localhost
   connection: local
   become: false
