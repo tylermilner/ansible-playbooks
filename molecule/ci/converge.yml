@@ -1,0 +1,2 @@
+---
+- ansible.builtin.import_playbook: ../../mbp-2010-ubuntu.yml # noqa: name[play]

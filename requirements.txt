@@ -1,2 +1,4 @@
-ansible>=10.0.0
-ansible-lint>=24.0.0
+ansible==13.4.0
+ansible-lint==26.3.0
+molecule==26.3.0
+molecule-plugins[vagrant]==25.8.12

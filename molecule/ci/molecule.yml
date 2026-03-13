@@ -1,0 +1,15 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: default
+platforms:
+  - name: ubuntu-test
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: ../prepare.yml
+    converge: converge.yml
+    verify: ../verify.yml
+verifier:
+  name: ansible
