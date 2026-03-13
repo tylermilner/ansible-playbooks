@@ -23,18 +23,13 @@ Run the lint script to check all playbooks:
 
 ### Testing
 
-Automated VM configuration testing is done using [Molecule](https://ansible.readthedocs.io/projects/molecule/) with [Vagrant](https://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
+Automated configuration testing is done using [Molecule](https://ansible.readthedocs.io/projects/molecule/).
 
-#### Prerequisites
-
-Install the following tools before running tests:
-
-- [Vagrant](https://developer.hashicorp.com/vagrant/install)
-- [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* **[Molecule](https://ansible.readthedocs.io/projects/molecule/)** - Ansible-native testing framework that drives the full test lifecycle (create, converge, verify, destroy).
 
 #### Running Tests
 
-Run the full Molecule test suite (create VM, converge, verify, destroy):
+Run the full Molecule test suite (converge, verify):
 
 ```bash
 molecule test
@@ -43,19 +38,18 @@ molecule test
 Or run individual steps:
 
 ```bash
-# Create the VM
-molecule create
-
-# Run the playbook against the VM
+# Run the playbook against the test instance
 molecule converge
 
 # Verify the machine state
 molecule verify
 
-# Destroy the VM
+# Clean up
 molecule destroy
 ```
 
 The `molecule/default/` scenario:
-- **Converge** (`converge.yml`): Runs the playbook tasks against an Ubuntu 22.04 VM.
+- **Converge** (`converge.yml`): Runs `mbp-2010-ubuntu.yml` directly against the test instance.
 - **Verify** (`verify.yml`): Checks that `curl` is installed and the `uv` binary is present at the expected path.
+
+> **Note:** The `molecule test` command is also run automatically in CI on an Ubuntu 24.04 runner, which closely matches the target homelab environment.

@@ -4,7 +4,7 @@
   gather_facts: true
 
   vars:
-    homelab_user: vagrant
+    homelab_user: ubuntu
 
   tasks:
     - name: Gather package facts

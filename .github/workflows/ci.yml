@@ -37,3 +37,27 @@ jobs:
           for playbook in *.yml; do
             ansible-playbook --syntax-check -i localhost, "$playbook"
           done
+
+  molecule-test:
+    name: Molecule Test
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Ensure ubuntu user exists for testing
+        run: id ubuntu || sudo useradd -m ubuntu
+
+      - name: Run molecule test
+        run: molecule test
