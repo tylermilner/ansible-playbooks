@@ -56,8 +56,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Ensure ubuntu user exists for testing
-        run: id ubuntu || sudo useradd -m ubuntu
-
       - name: Run molecule test
         run: molecule test -s ci
