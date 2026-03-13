@@ -38,8 +38,8 @@ jobs:
             ansible-playbook --syntax-check -i localhost, "$playbook"
           done
 
-  molecule-configuration-test:
-    name: Molecule Configuration Test (CI)
+  test-playbook:
+    name: Test Playbook
     runs-on: ubuntu-24.04
     permissions:
       contents: read
