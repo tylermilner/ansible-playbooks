@@ -66,6 +66,6 @@ molecule verify
 molecule destroy
 ```
 
-The two Molecule scenarios:
-- **`molecule/default/`** — Uses Vagrant + VirtualBox to spin up a `bento/ubuntu-24.04` VM. The `ubuntu` user is created in `prepare.yml`, then `converge.yml` applies the shared tasks from `tasks/main.yml` against the VM, and `verify.yml` asserts the final state.
+The two Molecule scenarios share a single `molecule/verify.yml` that asserts the final machine state (curl installed, uv binary present):
+- **`molecule/default/`** — Uses Vagrant + VirtualBox to spin up a `bento/ubuntu-24.04` VM. The `ubuntu` user is created in `prepare.yml`, then `converge.yml` applies the shared tasks from `tasks/main.yml` against the VM.
 - **`molecule/ci/`** — Uses the local driver (no VM needed) and runs directly on the GitHub Actions runner. `converge.yml` imports `mbp-2010-ubuntu.yml` directly, keeping the CI test as representative as possible.
