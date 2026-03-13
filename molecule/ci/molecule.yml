@@ -2,18 +2,12 @@
 dependency:
   name: galaxy
 driver:
-  name: vagrant
-  provider:
-    name: virtualbox
+  name: default
 platforms:
   - name: ubuntu-test
-    box: bento/ubuntu-24.04
-    memory: 1024
-    cpus: 1
 provisioner:
   name: ansible
   playbooks:
-    prepare: prepare.yml
     converge: converge.yml
     verify: verify.yml
 verifier:

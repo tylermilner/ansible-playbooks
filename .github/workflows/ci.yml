@@ -60,4 +60,4 @@ jobs:
         run: id ubuntu || sudo useradd -m ubuntu
 
       - name: Run molecule test
-        run: molecule test
+        run: molecule test -s ci

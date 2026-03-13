@@ -8,17 +8,5 @@
     homelab_user: ubuntu # Match the username that was created during the Ubuntu installation
 
   tasks:
-    - name: Install required packages
-      ansible.builtin.package:
-        name:
-          - curl # Required for downloading the uv installer script
-        state: present # Ensures the package is installed
-
-    - name: Install uv Python package manager
-      ansible.builtin.shell: # noqa: command-instead-of-module
-        cmd: set -o pipefail && curl -LsSf https://astral.sh/uv/install.sh | sh
-        # Skip if uv is already installed
-        creates: /home/{{ homelab_user }}/.local/bin/uv
-        executable: /bin/bash
-      become: true
-      become_user: "{{ homelab_user }}" # Run as the target user
+    - name: Run main configuration tasks
+      ansible.builtin.import_tasks: tasks/main.yml

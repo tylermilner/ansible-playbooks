@@ -1,0 +1,12 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Create ubuntu user
+      ansible.builtin.user:
+        name: ubuntu
+        create_home: true
+        shell: /bin/bash
+        state: present

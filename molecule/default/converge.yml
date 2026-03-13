@@ -1,2 +1,16 @@
 ---
-- ansible.builtin.import_playbook: ../../mbp-2010-ubuntu.yml # noqa: name[play]
+# converge.yml targets `hosts: all` so tasks run on the Vagrant VM.
+# We cannot use `import_playbook: ../../mbp-2010-ubuntu.yml` here because the main
+# playbook uses `connection: local`, which would run tasks on the control machine
+# (the developer's machine) rather than the Vagrant VM. Instead, we import the
+# same shared task file used by the main playbook to avoid duplicating task logic.
+- name: Converge
+  hosts: all
+  become: false
+
+  vars:
+    homelab_user: ubuntu
+
+  tasks:
+    - name: Run main configuration tasks
+      ansible.builtin.import_tasks: ../../tasks/main.yml
